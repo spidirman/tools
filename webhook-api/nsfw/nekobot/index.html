@@ -27,7 +27,7 @@
         </div>
       </div>
       <div style="padding-top: 1rem;">
-        <input style="background-color: rgb(107, 114, 128);" placeholder="Discord Webhook URL" type="url" autocomplete="off" required></input>
+        <input style="background-color: rgb(107, 114, 128);" placeholder="Discord Webhook URL" type="url" autocomplete="off" v-model="wurl" required></input>
       </div>
     </div>
   </div>
@@ -36,7 +36,7 @@
     new Vue({
       el: "#app",
       data: {
-        wurl: "Discord Webhook URL",
+        wurl: "",
         categories: ["hass", "hmidriff", "pgif", "4k", "hentai", "holo", "hneko", "neko", "hkitsune", "kemonomimi", "anal", "hanal", "gonewild", "kanna", "ass", "pussy", "thigh", "hthigh", "gah", "coffee", "food", "paizuri", "tentacle", "boobs", "hboobs"/*, "yaoi"*/]
       },
       methods: {
