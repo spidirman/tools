@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="name" content="webhook tool">
+  <meta name="description" content="send file by a webhook with nekoslife api">
+  <meta property="og:url" content="https://spidirman.github.io/webhook-api/nsfw/nekoslife/">
+  <meta property="og:title" content="nekoslife webhook api">
+  <meta property="og:description" content="webhook - nekoslife api(NSFW)">
+  <meta property="og:image" content="https://i.imgur.com/hP8rcaU.png">
+  <meta name="keywords" content="neko, Discord, Discord Webhook, NSFW">
+  <meta name="author" content="leloup_alpha">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"  content="width=device-width, initial-scale=0.7, maximum-scale=5, minimum-scale=0.5">
+  <link rel="icon" href="https://i.imgur.com/hP8rcaU.png" type="image/png" />
+  <title>webhook-api | nekoslife</title>
+</head>
+
+<body>
+  <div id="app">
+    <div class="center">
+      <div>
+        <div class="col">
+          <button class="button" v-for="tip in categories" @click="sendNSFW(tip)">{{ tip }}</button>
+        </div>
+      </div>
+      <div style="padding-top: 1rem;">
+        <input class="search" placeholder="Discord Webhook URL" type="url" autocomplete="off" v-model="wurl" required></input>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        wurl: "",
+        categories: ['solog', 'feet', 'lewdkemo', 'solo',  'cum',  'les', 'erokemo', 'bj', 'pwankg',  'ero', 'hololewd', 'tits','nsfw_neko_gif',
+		     'eroyuri', 'holoero', 'pussy', 'Random_hentai_gif', 'yuri', 'keta', 'hentai', 'feetg', 'eron', 'erok',
+		     'kemonomimi', 'cum_jpg', 'nsfw_avatar', 'erofeet', 'blowjob', 'spank', 'kuni', 'classic', 'femdom', 'boobs', 'trap',
+		     'lewd', 'pussy_jpg', 'anal', 'futanari', 'lewdk']
+      },
+      methods: {
+        async sendNSFW(category) {
+          let wURL = this.wurl;
+          let urlRegEx = /^https?:\/\/(canary\.)?(discordapp|discord)\.com\/api\/webhooks\/([^\/]+)\/([^\/]+)$/;
+          if (!wURL || !wURL.length || !urlRegEx.test(wURL)) return alert("Please specify a valid webhook URL!");
+          let response = await fetch(`https://nekos.life/api/v2/img/${category}`).then((response) => response.json());
+          if (response) {
+            await fetch(wURL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                embeds: [{
+                  color: 0x2F3136,
+                  image: {
+                    url: response.url
+                  }
+                }]
+              })
+            });
+          };
+        }
+      }
+    });
+  </script>
+
+  <style>
+    * {
+      font-family: "Comic Sans MS";
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: 0;
+    }
+
+    html,
+    body,
+    #app {
+      background: url('https://spidirman.github.io/webhook-api/nsfw/bg/bg1.jpg') no-repeat center center fixed;;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      user-select: none; /* supported by Chrome and Opera */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+    }
+    
+   
+  .search{  
+  font-size: 20px;
+  cursor: auto;
+  background-color: black;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 15px;
+  text-align: center;
+    }
+    
+    
+    .button {
+      border: 0;
+      border-radius: 9999px;
+      font-size: 16px;
+      height: 3rem;
+      width: fit-content;
+      background: linear-gradient(90deg, rgba(153,153,153,0.6958940484550562) 0%, rgba(153,153,153,0.6958940484550562) 26%, rgba(153,153,153,0.7324109023876404) 100%);
+      padding: 0px 10px;
+      transition: 0.25s;
+    }
+
+    .button:hover {
+	transition: 0.25s;
+    background: linear-gradient(90deg, rgba(233,85,204,0.6958940484550562) 0%, rgba(252,108,197,0.6958940484550562) 26%, rgba(228,186,252,0.6958940484550562) 100%);
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 100%;
+      gap: 0.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .center {
+        align-items: flex-start;
+        padding-left: 16px;
+      }
+
+      .col {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .button {
+        width: 7rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .button {
+        width: 8rem;
+      }
+    }
+  </style>
+</body>
+
+</html>
