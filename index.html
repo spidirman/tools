@@ -1,0 +1,110 @@
+<!doctype html header('Access-Control-Allow-Origin: *');>
+
+<html>
+
+<header>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <style>
+        * {
+            font-family: "Comic Sans MS";
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: 0;
+        }
+
+        html {
+            background-color: #444;
+            ;
+            background-size: cover;
+            user-select: none;
+            /* supported by Chrome and Opera */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+        }
+
+        .center {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .pasw {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+            font-size: 20px;
+            cursor: auto;
+            background-color: black;
+            color: white;
+            padding: 1rem;
+            width: auto;
+            height: auto;
+
+            border: none;
+            border-radius: 15px;
+            text-align: center;
+        }
+    </style>
+</header>
+
+<body>
+    <br>
+    <div>
+        <input class="pasw" placeholder="enter server invite..." id="inv"></input><br><br><br><br>
+    </div>
+    <hr>
+    <br>
+    <div class="center">
+        <a id="discord-counter"></a>
+    </div>
+</body>
+<script>
+    var btn = document.getElementById("btn");
+    var enter = document.getElementById("inv");
+
+    enter.addEventListener("keypress", function (event) {
+        if (event.keyCode == 13)
+            fun()
+    });
+
+
+
+    function fun() {
+        var inv = document.getElementById("inv")
+        var request = new XMLHttpRequest();
+
+        request.open('GET', 'https://discordapp.com/api/invite/' + inv.value.replace('https://discord.gg/', ''), true);
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 400) {
+                // Success!
+                var data = JSON.parse(request.responseText);
+                document.getElementById("discord-counter").innerHTML =
+                    '<span id="discord-counter">server id: ' + data.guild.id + '</span> <br> ' +
+                    '<span id="discord-counter">server name: ' + data.guild.name + '</span> <br> '+
+                    '<span id="discord-counter">description: ' + data.guild.description + '</span> <br> '+
+                    '<img style="border-radius: 180px" id="discord-counter" src="https://cdn.discordapp.com/icons/'+ data.guild.id+'/'+data.guild.icon+'"></img> <br> '+
+                    '<img id="discord-counter" src="https://cdn.discordapp.com/banners/'+ data.guild.id+'/'+data.guild.banner+'"></img> <br> '
+
+            } else {
+                var data = JSON.parse(request.responseText);
+                document.getElementById("discord-counter").innerHTML = "error: " + data.message
+
+            }
+        };
+
+        request.onerror = function () {
+            document.getElementById("discord-counter").innerHTML = "error: "
+        };
+
+        request.send();
+    }
+</script>
+
+</html>
