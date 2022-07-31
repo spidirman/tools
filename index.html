@@ -81,6 +81,8 @@
         var request = new XMLHttpRequest();
 
         request.open('GET', 'https://discordapp.com/api/invite/' + inv.value.replace('https://discord.gg/', ''), true);
+        request.setRequestHeader("Access-Control-Allow-Origin", "*");
+        request.setRequestHeader("Access-Control-Allow-Headers",  "accept");
         request.onload = function () {
             if (request.status >= 200 && request.status < 400) {
                 // Success!
